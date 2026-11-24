@@ -1,0 +1,500 @@
+@import "tailwindcss";
+@import "pdfjs-dist/web/pdf_viewer.css";
+
+:root,
+[data-theme="light"] {
+  --surface: #ffffff;
+  --surface-subtle: #f8f8f7;
+  --surface-elevated: #ffffff;
+  --surface-glass: rgba(255, 255, 255, 0.88);
+  --on-surface: #1d1d1f;
+  --on-surface-muted: #6e6e73;
+  --border: #e8e8e6;
+  --border-subtle: rgba(29, 29, 31, 0.06);
+  --primary: #2b5b84;
+  --primary-soft: rgba(43, 91, 132, 0.1);
+  --tertiary: #b57b2c;
+  --error: #c2413b;
+  --highlight-amber: rgba(235, 185, 65, 0.28);
+  --highlight-amber-border: rgba(181, 123, 44, 0.55);
+  --highlight-amber-hover: rgba(235, 185, 65, 0.42);
+  --highlight-amber-dot: #d49a3a;
+  --highlight-sage: rgba(124, 169, 130, 0.24);
+  --highlight-sage-border: rgba(74, 124, 89, 0.55);
+  --highlight-sage-hover: rgba(124, 169, 130, 0.38);
+  --highlight-sage-dot: #659b74;
+  --highlight-sky: rgba(114, 159, 198, 0.23);
+  --highlight-sky-border: rgba(59, 111, 156, 0.55);
+  --highlight-sky-hover: rgba(114, 159, 198, 0.37);
+  --highlight-sky-dot: #588fbe;
+  --selection-bg: rgba(43, 91, 132, 0.2);
+  --shadow-floating: 0 8px 28px -6px rgba(29, 29, 31, 0.12), 0 0 0 1px rgba(29, 29, 31, 0.06);
+  --shadow-popover: 0 18px 46px -12px rgba(29, 29, 31, 0.18), 0 0 0 1px rgba(29, 29, 31, 0.08);
+  --code-bg: #f3f3f1;
+  color-scheme: light;
+}
+
+[data-theme="sepia"] {
+  --surface: #f7f1e3;
+  --surface-subtle: #efe7d4;
+  --surface-elevated: #fbf7ed;
+  --surface-glass: rgba(247, 241, 227, 0.9);
+  --on-surface: #2e261e;
+  --on-surface-muted: #6a5e50;
+  --border: #e2d7c1;
+  --border-subtle: rgba(46, 38, 30, 0.08);
+  --primary: #2b5b84;
+  --primary-soft: rgba(43, 91, 132, 0.12);
+  --tertiary: #b57b2c;
+  --error: #c2413b;
+  --highlight-amber: rgba(214, 152, 46, 0.26);
+  --highlight-amber-border: rgba(181, 123, 44, 0.58);
+  --highlight-amber-hover: rgba(214, 152, 46, 0.4);
+  --highlight-amber-dot: #c58a2c;
+  --highlight-sage: rgba(112, 153, 116, 0.25);
+  --highlight-sage-border: rgba(72, 116, 82, 0.58);
+  --highlight-sage-hover: rgba(112, 153, 116, 0.38);
+  --highlight-sage-dot: #5d8e68;
+  --highlight-sky: rgba(102, 145, 182, 0.24);
+  --highlight-sky-border: rgba(57, 102, 143, 0.56);
+  --highlight-sky-hover: rgba(102, 145, 182, 0.36);
+  --highlight-sky-dot: #5284af;
+  --selection-bg: rgba(181, 123, 44, 0.24);
+  --shadow-floating: 0 8px 28px -6px rgba(46, 38, 30, 0.14), 0 0 0 1px rgba(46, 38, 30, 0.08);
+  --shadow-popover: 0 18px 46px -12px rgba(46, 38, 30, 0.2), 0 0 0 1px rgba(46, 38, 30, 0.1);
+  --code-bg: #ebe1cb;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --surface: #161618;
+  --surface-subtle: #1d1d20;
+  --surface-elevated: #222226;
+  --surface-glass: rgba(28, 28, 32, 0.88);
+  --on-surface: #e5e5e7;
+  --on-surface-muted: #9898a0;
+  --border: #2c2c31;
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --primary: #6ca0cc;
+  --primary-soft: rgba(108, 160, 204, 0.15);
+  --tertiary: #d49a45;
+  --error: #e06c66;
+  --highlight-amber: rgba(212, 154, 69, 0.24);
+  --highlight-amber-border: rgba(212, 154, 69, 0.55);
+  --highlight-amber-hover: rgba(212, 154, 69, 0.36);
+  --highlight-amber-dot: #d49a45;
+  --highlight-sage: rgba(114, 168, 128, 0.24);
+  --highlight-sage-border: rgba(114, 168, 128, 0.55);
+  --highlight-sage-hover: rgba(114, 168, 128, 0.36);
+  --highlight-sage-dot: #72a880;
+  --highlight-sky: rgba(108, 160, 204, 0.24);
+  --highlight-sky-border: rgba(108, 160, 204, 0.55);
+  --highlight-sky-hover: rgba(108, 160, 204, 0.36);
+  --highlight-sky-dot: #6ca0cc;
+  --selection-bg: rgba(108, 160, 204, 0.28);
+  --shadow-floating: 0 10px 30px -6px rgba(0, 0, 0, 0.48), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --shadow-popover: 0 20px 50px -10px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --code-bg: #232328;
+  color-scheme: dark;
+}
+
+:root {
+  --reader-font-size: 18px;
+  --reader-line-height: 1.8;
+  --reader-max-width: 740px;
+  --reader-font-family: 'Source Serif 4 Variable', Georgia, 'Source Han Serif SC', 'Noto Serif SC', 'Songti SC', serif;
+  --reader-font-weight: 420;
+  --reader-letter-spacing: -0.006em;
+  --ui-font-family: 'DM Sans Variable', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--ui-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 220ms ease, color 220ms ease;
+}
+
+::selection {
+  background-color: var(--selection-bg);
+}
+
+/* 极简隐形细滚动条 */
+.lumina-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.lumina-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lumina-scroll::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 9999px;
+  transition: background-color 200ms ease;
+}
+
+.lumina-scroll:hover::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+}
+
+.lumina-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--on-surface-muted);
+}
+
+/* 专注阅读正文排版 */
+.lumina-prose {
+  font-family: var(--reader-font-family);
+  font-size: var(--reader-font-size);
+  font-weight: var(--reader-font-weight);
+  line-height: var(--reader-line-height);
+  color: var(--on-surface);
+  letter-spacing: var(--reader-letter-spacing);
+  font-feature-settings: "kern" 1, "liga" 1;
+  font-optical-sizing: auto;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.lumina-prose h1,
+.lumina-prose h2,
+.lumina-prose h3,
+.lumina-prose h4 {
+  color: var(--on-surface);
+  font-weight: 600;
+  line-height: 1.35;
+  scroll-margin-top: 76px;
+  letter-spacing: -0.015em;
+}
+
+.lumina-prose h1 {
+  font-size: calc(var(--reader-font-size) * 1.85);
+  margin-top: 0.4em;
+  margin-bottom: 0.85em;
+  padding-bottom: 0.45em;
+  border-bottom: 1px solid var(--border);
+}
+
+.lumina-prose h2 {
+  font-size: calc(var(--reader-font-size) * 1.42);
+  margin-top: 2em;
+  margin-bottom: 0.7em;
+}
+
+.lumina-prose h3 {
+  font-size: calc(var(--reader-font-size) * 1.18);
+  margin-top: 1.6em;
+  margin-bottom: 0.55em;
+}
+
+.lumina-prose h4 {
+  font-size: calc(var(--reader-font-size) * 1.04);
+  margin-top: 1.35em;
+  margin-bottom: 0.45em;
+}
+
+.lumina-prose p {
+  margin-top: 0;
+  margin-bottom: 1.25em;
+}
+
+.lumina-prose blockquote {
+  margin: 1.4em 0;
+  padding: 0.35em 1.2em;
+  border-left: 3px solid var(--primary);
+  color: var(--on-surface-muted);
+  background: var(--surface-subtle);
+  border-radius: 0 10px 10px 0;
+}
+
+.lumina-prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.lumina-prose ul,
+.lumina-prose ol {
+  margin: 0.9em 0 1.25em;
+  padding-left: 1.6em;
+}
+
+.lumina-prose ul {
+  list-style-type: disc;
+}
+
+.lumina-prose ol {
+  list-style-type: decimal;
+}
+
+.lumina-prose li {
+  margin-bottom: 0.45em;
+}
+
+.lumina-prose a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.lumina-prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.86em;
+  background-color: var(--code-bg);
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+}
+
+.lumina-prose pre {
+  margin: 1.4em 0;
+  padding: 1em 1.15em;
+  background-color: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow-x: auto;
+  font-size: 0.85em;
+  line-height: 1.6;
+}
+
+.lumina-prose pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.lumina-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 0.92em;
+}
+
+.lumina-prose th,
+.lumina-prose td {
+  border: 1px solid var(--border);
+  padding: 0.55em 0.85em;
+  text-align: left;
+}
+
+.lumina-prose th {
+  background-color: var(--surface-subtle);
+  font-weight: 600;
+}
+
+.lumina-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 1.5em auto;
+  display: block;
+}
+
+.lumina-prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.2em 0;
+}
+
+/* AI 侧栏紧凑 Markdown 排版 */
+.lumina-ai-prose {
+  font-family: var(--ui-font-family);
+  font-size: 13.5px;
+  line-height: 1.68;
+  color: var(--on-surface);
+  word-break: break-word;
+}
+
+.lumina-ai-prose p {
+  margin: 0 0 0.7em;
+}
+
+.lumina-ai-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.lumina-ai-prose ul,
+.lumina-ai-prose ol {
+  margin: 0.4em 0 0.75em;
+  padding-left: 1.3em;
+}
+
+.lumina-ai-prose ul {
+  list-style-type: disc;
+}
+
+.lumina-ai-prose ol {
+  list-style-type: decimal;
+}
+
+.lumina-ai-prose li {
+  margin-bottom: 0.25em;
+}
+
+.lumina-ai-prose blockquote {
+  margin: 0.6em 0;
+  padding: 0.25em 0.85em;
+  border-left: 2.5px solid var(--primary);
+  color: var(--on-surface-muted);
+}
+
+.lumina-ai-prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.88em;
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.lumina-ai-prose pre {
+  margin: 0.65em 0;
+  padding: 0.75em;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.lumina-ai-prose pre code {
+  background: transparent;
+  padding: 0;
+}
+
+/* 划词持久化三色纸感高亮 */
+mark.lumina-highlight {
+  background-color: var(--highlight-amber);
+  color: inherit;
+  border-bottom: 1.5px solid var(--highlight-amber-border);
+  border-radius: 3px;
+  padding: 0.04em 0.08em;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+mark.lumina-highlight:hover {
+  background-color: var(--highlight-amber-hover);
+}
+
+mark.lumina-highlight[data-note-color="sage"] {
+  background-color: var(--highlight-sage);
+  border-bottom-color: var(--highlight-sage-border);
+}
+
+mark.lumina-highlight[data-note-color="sage"]:hover {
+  background-color: var(--highlight-sage-hover);
+}
+
+mark.lumina-highlight[data-note-color="sky"] {
+  background-color: var(--highlight-sky);
+  border-bottom-color: var(--highlight-sky-border);
+}
+
+mark.lumina-highlight[data-note-color="sky"]:hover {
+  background-color: var(--highlight-sky-hover);
+}
+
+/* EPUB 纯流式章节间隔 */
+.lumina-epub-chapter + .lumina-epub-chapter {
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+@keyframes luminaPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(181, 123, 44, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(181, 123, 44, 0.18);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(181, 123, 44, 0);
+  }
+}
+
+.lumina-highlight-pulse {
+  animation: luminaPulse 0.7s ease-out 2;
+}
+
+/* PDF 文本层精细适配：保证跨主题可见性、高选区还原度与零错位 */
+.lumina-pdf-page {
+  position: relative;
+  background: #ffffff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px -4px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--border);
+  transition: box-shadow 220ms ease;
+}
+
+.lumina-pdf-page canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: filter 220ms ease;
+}
+
+[data-theme="sepia"] .lumina-pdf-page canvas {
+  filter: sepia(0.24) brightness(0.96) contrast(0.98);
+}
+
+[data-theme="dark"] .lumina-pdf-page canvas {
+  filter: invert(0.88) hue-rotate(180deg) brightness(0.95) contrast(0.95);
+}
+
+[data-theme="dark"][data-pdf-dark-mode="dim"] .lumina-pdf-page canvas {
+  filter: brightness(0.84) contrast(0.96);
+}
+
+[data-theme="dark"] .lumina-pdf-page {
+  background: #1a1a1d;
+}
+
+.lumina-pdf-page .textLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 1;
+  line-height: 1;
+}
+
+.lumina-pdf-page .textLayer ::selection {
+  background: var(--selection-bg);
+}
+
+.lumina-pdf-page .textLayer ::-moz-selection {
+  background: var(--selection-bg);
+}
+
+/* 浮层入场动画 */
+@keyframes luminaPopIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.lumina-animate-pop {
+  animation: luminaPopIn 160ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes luminaFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lumina-animate-fade {
+  animation: luminaFadeIn 180ms ease-out forwards;
+}

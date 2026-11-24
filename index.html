@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>Lumina Reader — 极简专注阅读与 AI 伴读</title>
+    <script>
+      (function () {
+        try {
+          var raw = localStorage.getItem('lumina_reader_preferences');
+          if (raw) {
+            var parsed = JSON.parse(raw);
+            if (parsed && (parsed.theme === 'light' || parsed.theme === 'sepia' || parsed.theme === 'dark')) {
+              document.documentElement.setAttribute('data-theme', parsed.theme);
+            }
+            if (parsed && (parsed.pdfDarkMode === 'invert' || parsed.pdfDarkMode === 'dim')) {
+              document.documentElement.setAttribute('data-pdf-dark-mode', parsed.pdfDarkMode);
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
