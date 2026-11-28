@@ -1,6 +1,41 @@
 # Lumina Reader
 
-> 安静地阅读，自然地思考——极致极简、注重排版体验与低侵扰 AI 伴读的本地文档阅读器（支持 Web 与 Tauri v2 桌面端）。
+> 安静地阅读，自然地思考——极致极简、注重排版体验与低侵扰 AI 伴读的本地文档阅读器（支持在线 Web 与 Tauri v2 桌面端）。
+
+🌐 **在线体验（零登录 · 内置双语示例文档）**：[https://xsnj-9527.github.io/lumina-reader/](https://xsnj-9527.github.io/lumina-reader/)  
+📦 **Windows 桌面安装包**：[GitHub Releases](https://github.com/xsnj-9527/lumina-reader/releases/latest)  
+📊 **检索评测与 Badcase 拆解**：[docs/EVAL_AND_BADCASES.md](./docs/EVAL_AND_BADCASES.md)
+
+![Lumina Reader 功能演示](./docs/screenshots/demo-walkthrough.gif)
+
+---
+
+## 界面预览
+
+| 纯白专注阅读 + 目录与 AI 伴读 | 暖黄护眼主题 |
+| :---: | :---: |
+| ![纯白阅读与伴读](./docs/screenshots/02-reader-light-ai.png) | ![暖黄护眼主题](./docs/screenshots/03-reader-sepia.png) |
+
+| 暗黑深灰 + 多模型预设（内置小米 MiMo） | 本地书库首页 |
+| :---: | :---: |
+| ![暗黑模式与多模型路由](./docs/screenshots/04-dark-ai-models.png) | ![极简首页](./docs/screenshots/01-home.png) |
+
+---
+
+## 本地检索评测与 Badcase 治理
+
+无需外部向量库或重型 Embedding 模型，Lumina Reader 纯前端实现 **当前阅读视窗 + BM25（英文词干归并 + 中文双字 n-gram）混合检索**。内置零额外依赖评测脚本（`npm test` / `npm run eval`），在 14 章节 + 9 附录中英文混合技术文档（8,855 字符 / 24 分块、预算上限 2,800 字符）上实测对比结果如下：
+
+| 检索策略 | 总命中率（20 条） | 局部指代问答（6 条） | 跨章检索（14 条） |
+| :--- | :---: | :---: | :---: |
+| 无索引头部截断 | 8 / 20（40.0%） | — | — |
+| 纯 BM25 检索 | 16 / 20（80.0%） | 2 / 6 | 14 / 14 |
+| **视窗 + BM25 混合（Lumina）** | **20 / 20（100.0%）** | **6 / 6** | **14 / 14** |
+
+- **上下文控本**：平均单次输入 **2,590 字符**，相比全文输入节省 **70.8%** 上下文开销；34,876 字符超长文档导读自动抽样压缩至 **13,932 字符**（上限 15,000）。
+- **边界回归**：PDF 跨行断词与中文碎空格清洗 **8 / 8 PASS**，划词模式自动分流与 Prompt 约束 **6 / 6 PASS**。详见 [docs/EVAL_AND_BADCASES.md](./docs/EVAL_AND_BADCASES.md)。
+
+---
 
 ## 核心特性
 
@@ -36,10 +71,13 @@
 - Node.js 20+ 与 npm
 - 若需编译或开发桌面端，请先安装 [Rust 工具链](https://www.rust-lang.org/) 与系统对应的 Tauri v2 构建依赖（Windows 下为 WebView2 与 Visual Studio C++ 生成工具）
 
-### 安装依赖
+### 安装依赖与运行评测
 
 ```bash
 npm install
+
+# 运行本地检索对比评测 + 划词清洗与 Prompt 分流测试（34 项校验）
+npm test
 ```
 
 ### Web 模式开发与构建
